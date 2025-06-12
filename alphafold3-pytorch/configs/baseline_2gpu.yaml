@@ -1,0 +1,173 @@
+---
+# conductor parameters
+checkpoint_folder: ./outputs/initial-and-fine-tuning
+checkpoint_prefix: omnifold.
+training_order:
+  - initial_training
+model:
+  # model parameters
+  dim_atom_inputs: 3
+  dim_template_feats: 108
+  dim_template_model: 64
+  num_atom_embeds: 47
+  num_atompair_embeds: 11
+  atoms_per_window: 27
+  dim_atom: 128 
+  dim_atompair_inputs: 5
+  dim_atompair: 16
+  dim_input_embedder_token: 384
+  dim_single: 384
+  dim_pairwise: 128
+  dim_token: 768
+  ignore_index: -1
+  num_dist_bins: 64
+  num_plddt_bins: 50
+  num_pde_bins: 64
+  num_pae_bins: 64
+  sigma_data: 16
+  loss_confidence_weight: 0.0001
+  loss_distogram_weight: 0.03
+  loss_diffusion_weight: 4.0
+  prior_type: diffusion
+  multi_chain_permutation_alignment: true
+  atom_permutation_alignment: true
+  use_optimized_evo: null 
+  use_tempo_layernorm: false
+  stochastic_frame_average: true
+  checkpoint_input_embedding: true
+  checkpoint_trunk_pairformer: true 
+  checkpoint_diffusion_module: true
+  checkpoint_distogram_head: false 
+  checkpoint_confidence_head: true
+  disable_distogram_casting: true
+  disable_edm_casting: true
+  disable_sampling_casting: true
+  disable_confidence_casting: true
+  disable_loss_casting: true
+  input_independent_baseline: false
+  constraints: [pocket, contact, docking] 
+  pairformer_stack:
+    {
+      depth: 48,
+      pair_bias_attn_dim_head: 64,
+      pair_bias_attn_heads: 16,
+      dropout_row_prob: 0.25,
+      pairwise_block_kwargs: {},
+    }
+training:
+  initial_training:
+    # trainer parameters
+    num_train_steps: 20000
+    num_valid_steps: 20
+    num_test_steps: null
+    global_batch_size: 2
+    devices: 2
+    num_nodes: 1
+    seed: 42
+    grad_accum_every: 1
+    clear_cuda_cache_every: 1
+    confidence_head_interval: 10
+    valid_every: 1000
+    ema_decay: 0.999
+    lr: 1e-4
+    clip_grad_norm: 10.0
+    accelerator: gpu
+    strategy: ddp
+    strategy_stage: 0
+    checkpoint_prefix: ckpt.
+    checkpoint_every: 500
+    checkpoint_folder: "."
+    overwrite_checkpoints: false
+    precision:  null
+    profile: false 
+    profiler_kwargs: {log_dir: "./profiled"}
+    use_torch_compile: false
+    diffusion_num_augmentations: 47 
+    diffusion_add_smooth_lddt_loss: true
+    diffusion_add_bond_loss: false 
+    train_structure_and_distogram: true 
+    train_pae: true 
+    is_fine_tuning: false 
+    num_samples_per_example: 5 
+    visualize_train_samples_every_n_steps: 0 
+    visualize_valid_samples_every_n_steps: 0 
+    visualize_test_samples_every_n_steps: 0 
+    watch_model: all 
+    watch_model_freq: 10 
+    # logger parameters
+    train_log_interval: 1
+    logger_name: csv
+    logger_kwargs:
+      out_dir: "."
+      name: auto
+      save_dir: ./logs/initial_training
+      resume: allow
+      project: OmniFold
+      entity: bml-lab
+      group: omnifold-training
+      tags: ["pdb", "omnifold", "initial_training", "full_dataset"]
+    # dataset parameters
+    dataset_config:
+      dataset_type: pdb
+      train_folder: ./data/pdb_data/val_mmcifs
+      pdb_distillation: false
+      pdb_distillation_only: false
+      kwargs:
+        contiguous_weight: 0.2 # NOTE: the sum of `contiguous_weight`, `spatial_weight`, and `spatial_interface_weight` should be 1
+        spatial_weight: 0.4
+        spatial_interface_weight: 0.4
+        crop_size: 384 
+        max_msas_per_chain: 16384 # if specified, the maximum number of MSA sequences to include per chain (e.g., for throughput concerns)
+        max_num_msa_tokens: 16777216 # if specified, the maximum number of MSA sequence tokens to include per structure (e.g., for throughput concerns)
+        max_templates_per_chain: 20 # if specified, the maximum number of templates to include per chain (e.g., for throughput concerns)
+        num_templates_per_chain: 4 # if specified, the effective number number of templates to include per chain (e.g., for throughput concerns)
+        max_num_template_tokens: 3072 # if specified, the maximum number of template sequence tokens to include per structure (e.g., for throughput concerns)
+        max_num_atoms: 7000 # if specified, the maximum number of (post-cropping) atoms allowed in a structure (e.g., for memory concerns)
+        min_length: null # if specified, the minimum allowed (post-cropping) token length of any training, validation, or test example
+        filter_for_alphabetic_chain_orderings: true # NOTE: due to a bug present during mmCIF and MSA preprocessing (affecting ~11% of the PDBDataset's complexes), this should be set to `true` for now
+        max_length: 2560 # NOTE: if specified, the maximum allowed (pre-cropping) token length of any training, validation, or test example
+        constraints: [pocket, contact, docking] # if specified, a list of the types of pairwise token constraints to use, which must consist of (`pocket`, `contact`, `docking`)
+        constraints_ratio: 0.1 # if `constraints` is specified, the ratio of times during training to provide pairwise token constraint embeddings to the model (independently for each constraint type)
+        mmcif_metadata_filepath: ./caches/pdb_data/metadata/mmcif.csv # NOTE: this is the location to which the metadata for the PDB dataset's mmCIF files should be preprocessed
+        pdbbind_binding_affinity_values_path: ./caches/pdb_data/metadata/binding_affinity_values.txt # NOTE: this is the optional location of PDBBind 2020's binding affinity values
+      train_kwargs:
+        sample_type: default # NOTE: must be one of (`default`, `clustered`)
+        msa_dir: ./data/pdb_data/data_caches/msa/val_msas   # ./data/pdb_data/data_caches/msa/train_msas # NOTE: this is the directory where the MSA data should be set up
+        templates_dir: ./data/pdb_data/data_caches/template/val_templates  # ./data/pdb_data/data_caches/template/train_templates # NOTE: this is the directory where the template data should be set up
+        # msa_cache_dir: ./caches/pdb_data/cache/msa/val_msas # ./caches/pdb_data/cache/msa/train_msas # NOTE: this is the directory where the full-sized MSA features for each example should be cached
+        # input_cache_dir: ./caches/pdb_data/cache/input/val_inputs  # ./caches/pdb_data/cache/input/train_inputs # NOTE: this is the directory where the input features for each example should be cached
+        training: true
+        inference: false
+        return_atom_inputs: true
+      distillation_kwargs:
+        folder: ./data/afdb_data/train_mmcifs # NOTE: this is the directory where the PDB distillation data should be set up
+        md_folder: ./data/md_data/train_mmcifs # NOTE: this is the directory where the PDB molecular dynamics distillation data should be set up
+        phage_folder: ./data/phage_data/train_mmcifs # NOTE: this is the directory where the phage distillation data should be set up
+        distillation_template_mmcif_dir: ./data/pdb_data/train_mmcifs # NOTE: this is the directory where the template distillation data should be set up
+        msa_dir: ./data/afdb_data/data_caches/train # NOTE: this is the directory where the MSA and template distillation data should be set up
+        templates_dir: ./data/afdb_data/data_caches/train # NOTE: this is the directory where the MSA and template distillation data should be set up
+        cutoff_date: "2021-01-12" # if specified, the effective cutoff date for training data at runtime
+        msa_cache_dir: ./caches/afdb_data/cache/msa/train_msas # NOTE: this is the directory where the full-sized MSA features for each example should be cached
+        input_cache_dir: ./caches/afdb_data/cache/input/train_inputs # NOTE: this is the directory where the input features for each example should be cached
+        training: true
+        inference: false
+        distillation: true
+        return_atom_inputs: true
+        uniprot_to_pdb_id_mapping_filepath: ./data/afdb_data/data_caches/uniprot_to_pdb_id_mapping.dat # NOTE: this is the location where the UniProt to PDB ID mapping for SwissProt should be set up
+        mmcif_metadata_filepath: ./caches/afdb_data/metadata/mmcif.csv # NOTE: this is the location to which the metadata for the distillation dataset's mmCIF files should be preprocessed
+        sampling_weight: 0.5
+      valid_kwargs:
+        sample_type: default # NOTE: must be one of (`default`, `clustered`)
+        msa_dir: ./data/pdb_data/data_caches/msa/val_msas # NOTE: this is the directory where the MSA data should be set up
+        templates_dir: ./data/pdb_data/data_caches/template/val_templates # NOTE: this is the directory where the template data should be set up
+        msa_cache_dir: ./caches/pdb_data/cache/msa/val_msas # NOTE: this is the directory where the full-sized MSA features for each example should be cached
+        input_cache_dir: ./caches/pdb_data/cache/input/val_inputs # NOTE: this is the directory where the input features for each example should be cached
+        training: false
+        inference: false
+        return_atom_inputs: true
+      dl_kwargs:
+        num_workers:  1
+        pin_memory: true
+        multiprocessing_context: spawn
+        prefetch_factor: 1
+        persistent_workers: true
