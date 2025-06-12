@@ -14,7 +14,7 @@ Why MegaFold?
 
 ## Usage
 
-### alphafold3-pytorch
+### AF3 training code
 The `alphafold3-pytorch` folder includes AF3 training code (baseline and end-to-end MegaFold integrations) and instructions to reproduce our paper results. More details in `alphafold3-pytorch/README.md`.
 
 ---

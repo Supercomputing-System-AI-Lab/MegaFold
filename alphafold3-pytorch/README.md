@@ -14,7 +14,7 @@ pip install torch==2.7.0  --index-url https://download.pytorch.org/whl/cu118
 pip install -r requirements.txt
 ```
 
-
+---
 ## Prepare experiment dataset
 
 First, download a sample dataset from the Protein Data Bank (PDB). 
@@ -72,7 +72,8 @@ tar -xvzf input_cache
 rm input_cache
 ```
 
-## Run AF3 training code:
+---
+## Run code
 
 - Baseline: 
 
@@ -90,6 +91,7 @@ AF3_OPTIMIZATIONS_MODE="megafold" python3 train.py --config configs/megafold.yam
 *NOTE*: Scripts to submit batch jobs are available in `bash-scripts`.
 
 
+---
 ## (optional) Full dataset & cache:
 
 If you are interested in running large-scale AlphaFold3 training, the full dataset and its cache are provided below:  
