@@ -1,8 +1,8 @@
-# MegaFold
+# MegaFold: System-Level Optimizations for Accelerating Protein Structure Prediction Models
 
 ## About 
 
-MegaFold is a cross-platform system to accelerate protein structure prediction models (e.g., AlphaFold3, AlphaFold2).
+[MegaFold](TODO:add arxiv link) is a cross-platform system to accelerate protein structure prediction models (e.g., AlphaFold3, AlphaFold2).
 
 Why MegaFold? 
 
@@ -11,27 +11,24 @@ Why MegaFold?
 - **Memory reduction**: Reduces peak memory during training by up to 1.23x
 - **Sequence length extension**: Enables training on 1.35x longer sequence lengths
 
-Paper: [arxiv](TODO:add arxiv link)
-
 
 ## Usage
 
-<h3>alphafold3-pytorch</h3>
+### alphafold3-pytorch
 The `alphafold3-pytorch` folder includes AF3 training code (baseline and end-to-end MegaFold integrations) and instructions to reproduce our paper results. More details in `alphafold3-pytorch/README.md`.
 
-
-<details>
-<summary><h3>Data-loading optimizations</h3></summary>
+---
+### Data-loading optimizations
 The file `alphafold3-pytorch/omnifold/inputs.py` includes the data pipeline and implementation details for the ahead-of-time cache-based data loading optimizations. 
 
 You can find details on deterministic input features cache in lines 4536-4553 and on MSA features cache in lines 4670-4732.
 
-</details>
-
+---
+### FusedEvoAttention
+The folder `FusedEvoAttention` includes source code of FusedEvoAttention kernel. 
 
 <details>
-<summary><h3>FusedEvoAttention</h3></summary>
-The folder `FusedEvoAttention` includes source code of FusedEvoAttention kernel. 
+<summary>Expand for step-by-step guide</summary>
 
 #### Step 1: Import
 
@@ -43,7 +40,7 @@ from evoformer import TritonEvoformer
 
 `FusedEvoAttention` supports 4 main types of EvoAttention in AlphaFold models, shown in the below examples. For accuracy, you need to adjust your inputs to their suggested shapes before passing in. Acronyms: `N_seq` is the MSA depth; `N_res` is the input sequence length. 
 
-**1. Single Attention with Pair Bias**
+**a. Single Attention with Pair Bias**
 
 ```
 # Q, K, V:     [Batch, 1, N_res, Head, Dim]
@@ -52,7 +49,7 @@ from evoformer import TritonEvoformer
 out = TritonEvoformer(Q, K, V, mask, pair_bias)
 ```
 
-**2. Triangle Attention (around starting node and around ending node)**
+**b. Triangle Attention (around starting node and around ending node)**
 
 ```
 # Q, K, V:     [Batch, N_res, N_res, Head, Dim]
@@ -61,7 +58,7 @@ out = TritonEvoformer(Q, K, V, mask, pair_bias)
 out = TritonEvoformer(Q, K, V, mask, pair_bias)
 ```
 
-**3. MSA Row-wise Attention**
+**c. MSA Row-wise Attention**
 
 ```
 # Q, K, V:     [Batch, N_seq, N_res, Head, Dim]
@@ -70,7 +67,7 @@ out = TritonEvoformer(Q, K, V, mask, pair_bias)
 out = TritonEvoformer(Q, K, V, mask, pair_bias)
 ```
 
-**4. MSA Column-wise Attention**
+**d. MSA Column-wise Attention**
 
 ```
 # Q, K, V:     [Batch, N_res, N_seq, Head, Dim]
@@ -78,7 +75,6 @@ out = TritonEvoformer(Q, K, V, mask, pair_bias)
 out = TritonEvoformer(Q, K, V, mask)
 ```
 
----
 
 #### Step 3: Autotuning for optimal performance
 
@@ -99,10 +95,12 @@ TRITON_PRINT_AUTOTUNING=1 python your_script.py
 
 </details>
 
+---
+### FusedLayernormLinear
+The folder `FusedLayernormLinear` includes source code of fused layernorm-linear kernel. 
 
 <details>
-<summary><h3>FusedLayernormLinear</h3></summary>
-The folder `FusedLayernormLinear` includes source code of fused layernorm-linear kernel. 
+<summary>Expand for step-by-step guide</summary>
 
 #### Step 1: Import
 
@@ -131,10 +129,12 @@ FusedLayernormLinear fuses sequential `LayerNorm` and `Linear` layers. You can r
 
 </details>
 
+---
+### FusedTransition
+The folder `FusedTransition` includes source code of FusedTransition kernel.
 
 <details>
-<summary><h3>FusedTransition</h3></summary>
-The folder `FusedTransition` includes source code of FusedTransition kernel.
+<summary>Expand for step-by-step guide</summary>
 
 #### Step 1: Import
 
@@ -152,11 +152,9 @@ from fused_transition import FusedTransition
 + transition = FusedTransition(dim=dim, expansion_factor=expansion_factor)
 ```
 
-
 - **NOTE**: `FusedTransition` relies on FusedLayernormLinear for its expanding projections. Make sure you read FusedLayernormLinear's usage guide above. 
 
 </details>
-
 
 
 ## Citation 
