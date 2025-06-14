@@ -135,13 +135,13 @@ tar -xzf omniflow_data.tar.gz && rm omniflow_data.tar.gz
 The following section gives detailed instructions on enabling each of our optimizations.
 
 
-### Data-loading optimizations
+### Optimization 1: Data-loading
 The file `omnifold/inputs.py` includes the data pipeline and implementation details for the ahead-of-time cache-based data loading optimizations. 
 
-You can find details on deterministic input features cache in lines 4536-4553 and on MSA features cache in lines 4670-4732.
+You can find details on [deterministic input features cache](https://github.com/Supercomputing-System-AI-Lab/MegaFold/blob/main/omnifold/inputs.py#L4536-L4553) and on [MSA features cache](https://github.com/Supercomputing-System-AI-Lab/MegaFold/blob/main/omnifold/inputs.py#L4670-L4732).
 
 ---
-### FusedEvoAttention
+### Optimization 2: FusedEvoAttention
 The folder `FusedEvoAttention` includes source code of FusedEvoAttention kernel. 
 
 <details>
@@ -213,7 +213,7 @@ TRITON_PRINT_AUTOTUNING=1 python your_script.py
 </details>
 
 ---
-### FusedLayernormLinear
+### Optimization 3: FusedLayernormLinear
 The folder `FusedLayernormLinear` includes source code of fused layernorm-linear kernel. 
 
 <details>
@@ -247,7 +247,7 @@ FusedLayernormLinear fuses sequential `LayerNorm` and `Linear` layers. You can r
 </details>
 
 ---
-### FusedTransition
+### Optimization 4: FusedTransition
 The folder `FusedTransition` includes source code of FusedTransition kernel.
 
 <details>
