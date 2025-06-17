@@ -14,8 +14,8 @@ from tqdm import tqdm
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
-from omnifold.data import mmcif_parsing
-from omnifold.utils.data_utils import extract_mmcif_metadata_field
+from megafold.data import mmcif_parsing
+from megafold.utils.data_utils import extract_mmcif_metadata_field
 
 # Constants
 PROCESS_ARCHIVE_MAX_SECONDS_PER_INPUT = 15

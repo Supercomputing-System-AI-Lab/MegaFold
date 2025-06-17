@@ -1,4 +1,3 @@
-# This code uses autotuned block sizes (retrieved from helper.py), comments out triton.autotune so that no autotuning happens in training 
 # USAGE: replace: [LayerNorm(K, ); Linear(K, N)] with LayernormLinear(K, N)
 
 import torch
@@ -6,18 +5,22 @@ import torch.nn as nn
 from torch.nn import functional as F, init
 import triton
 import triton.language as tl
-# from triton.language.math import rsqrt
 from liger_kernel.ops.utils import calculate_settings
 from liger_kernel.utils import infer_device
 from liger_kernel.ops.utils import ensure_contiguous
-from helper import calculate_config_layernorm_linear
 import math 
 import sys
 
-DEFAULT_CONFIG = (16, 16, 16, 8, 1, 8, 255)
-
 def is_cuda():
     return triton.runtime.driver.active.get_current_target().backend == "cuda"
+
+if is_cuda():
+    from megafold.kernels.helper import calculate_config_layernorm_linear
+else:
+    from megafold.kernels.helper_amd import calculate_config_layernorm_linear
+
+DEFAULT_CONFIG = (16, 16, 16, 8, 1, 8, 255)
+
 
 
 def get_cuda_autotune_forward_config():   
@@ -32,6 +35,7 @@ def get_cuda_autotune_forward_config():
         for num_warps in [4, 8]
         for maxnreg in [96, 128, 168, 255]
     ]
+    # return [triton.Config({'BLOCK_SIZE_M': 128, 'BLOCK_SIZE_N': 64, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 4}, num_stages=2, num_warps=8, maxnreg=255)] # best config from massive search for (750, 750, 750)
 
 
 def get_hip_autotune_forward_config():
@@ -530,6 +534,7 @@ class LayernormLinear(nn.Module):
             torch.nn.init.uniform_(self.linear_bias, -bound, bound)
 
     def forward(self, X):
+        #print("Inputting to Tritonkernel")
         M = math.prod(X.shape[:-1])
         supported_configs = calculate_config_layernorm_linear(M, self.N, self.K, 2)
         if supported_configs is None: # revert back to standard torch 

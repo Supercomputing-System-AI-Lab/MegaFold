@@ -12,10 +12,10 @@ from tqdm import tqdm
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
-from omnifold.common.biomolecule import _from_mmcif_object
-from omnifold.data import mmcif_parsing
-from omnifold.utils.data_utils import extract_mmcif_metadata_field
-from omnifold.utils.utils import exists, not_exists
+from megafold.common.biomolecule import _from_mmcif_object
+from megafold.data import mmcif_parsing
+from megafold.utils.data_utils import extract_mmcif_metadata_field
+from megafold.utils.utils import exists, not_exists
 
 # Constants
 PROCESS_MMCIF_MAX_SECONDS_PER_INPUT = 15

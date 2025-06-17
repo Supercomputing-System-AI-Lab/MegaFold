@@ -6,7 +6,7 @@ import triton
 import triton.language as tl
 from liger_kernel.ops.utils import calculate_settings, ensure_contiguous
 from liger_kernel.utils import infer_device
-from fused_layernorm_linear import LayernormLinear
+from megafold.kernels.fused_layernorm_linear import LayernormLinear
 
 @triton.jit
 def _swiglu_forward_kernel(x_ptr, y_ptr, stride_y, D: tl.constexpr, BLOCK_SIZE: tl.constexpr):

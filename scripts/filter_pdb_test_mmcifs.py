@@ -1,7 +1,7 @@
 # %% [markdown]
-# # Curating OmniFold PDB Evaluation Dataset
+# # Curating MegaFold PDB Evaluation Dataset
 #
-# For evaluating trained OmniFold models, we propose a modified (i.e., more stringent) version of the
+# For evaluating trained MegaFold models, we propose a modified (i.e., more stringent) version of the
 # evaluation procedure outlined in Abramson et al (2024).
 #
 # The recent PDB evaluation set construction started by taking all PDB entries released between 2023-01-14 and
@@ -32,14 +32,14 @@ from tqdm.contrib.concurrent import process_map
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
-from omnifold.common.paper_constants import (
+from megafold.common.paper_constants import (
     CRYSTALLOGRAPHY_METHODS,
     LIGAND_EXCLUSION_SET,
 )
-from omnifold.data import mmcif_parsing, mmcif_writing
-from omnifold.data.mmcif_parsing import MmcifObject
-from omnifold.tensor_typing import typecheck
-from omnifold.utils.utils import exists, not_exists
+from megafold.data import mmcif_parsing, mmcif_writing
+from megafold.data.mmcif_parsing import MmcifObject
+from megafold.tensor_typing import typecheck
+from megafold.utils.utils import exists, not_exists
 from scripts.filter_pdb_train_mmcifs import (
     FILTER_STRUCTURE_MAX_SECONDS_PER_INPUT,
     filter_pdb_release_date,
@@ -97,7 +97,7 @@ def filter_structure_with_timeout(
     max_cutoff_date: datetime = datetime(2024, 4, 30),
     keep_ligands_in_exclusion_set: bool = False,
 ):
-    """Given an input mmCIF file, create a new filtered mmCIF file using OmniFold's PDB evaluation
+    """Given an input mmCIF file, create a new filtered mmCIF file using MegaFold's PDB evaluation
     dataset filtering criteria under a timeout constraint."""
     # Section 2.5.4 of the AlphaFold 3 supplement
     asym_filepath = os.path.join(
@@ -142,14 +142,14 @@ def filter_structure_with_timeout(
             output_filepath,
             gapless_poly_seq=True,
             insert_orig_atom_names=True,
-            insert_omnifold_mmcif_metadata=False,
+            insert_megafold_mmcif_metadata=False,
         )
         print(f"Finished filtering structure: {mmcif_object.file_id}")
 
 
 @typecheck
 def filter_structure(args: Tuple[str, str, datetime, datetime, bool]):
-    """Given an input mmCIF file, create a new filtered mmCIF file using OmniFold's PDB evaluation
+    """Given an input mmCIF file, create a new filtered mmCIF file using MegaFold's PDB evaluation
     dataset filtering criteria."""
     filepath, output_dir, min_cutoff_date, max_cutoff_date, keep_ligands_in_exclusion_set = args
     file_id = os.path.splitext(os.path.basename(filepath))[0]
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     # Parse command-line arguments
 
     parser = argparse.ArgumentParser(
-        description="Filter mmCIF files to curate the OmniFold PDB evaluation dataset."
+        description="Filter mmCIF files to curate the MegaFold PDB evaluation dataset."
     )
     parser.add_argument(
         "-i",

@@ -1,7 +1,7 @@
 # %% [markdown]
-# # Clustering OmniFold PDB Training Dataset
+# # Clustering MegaFold PDB Training Dataset
 #
-# For clustering OmniFold's PDB training dataset, we follow the clustering procedure outlined in Abramson et al (2024).
+# For clustering MegaFold's PDB training dataset, we follow the clustering procedure outlined in Abramson et al (2024).
 #
 # In order to reduce bias in the training and evaluation sets, clustering was performed on PDB chains and interfaces, as
 # follows.
@@ -37,10 +37,10 @@ from tqdm import tqdm
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
-from omnifold.data import mmcif_parsing
-from omnifold.tensor_typing import IntType, typecheck
-from omnifold.utils.data_utils import RESIDUE_MOLECULE_TYPE, get_residue_molecule_type
-from omnifold.utils.utils import exists, np_mode
+from megafold.data import mmcif_parsing
+from megafold.tensor_typing import IntType, typecheck
+from megafold.utils.data_utils import RESIDUE_MOLECULE_TYPE, get_residue_molecule_type
+from megafold.utils.utils import exists, np_mode
 
 # Constants
 
@@ -693,7 +693,7 @@ def cluster_interfaces(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Cluster chains and interfaces within the OmniFold PDB training dataset's filtered mmCIF files."
+        description="Cluster chains and interfaces within the MegaFold PDB training dataset's filtered mmCIF files."
     )
     parser.add_argument(
         "--mmcif_dir",

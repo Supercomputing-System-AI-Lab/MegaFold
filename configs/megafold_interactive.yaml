@@ -60,9 +60,9 @@ training:
     num_train_steps: 20000
     num_valid_steps: 20
     num_test_steps: null
-    global_batch_size: ${GLOBAL_BATCH_SIZE}
-    devices: ${NUM_GPUS}
-    num_nodes: ${NUM_NODES}
+    global_batch_size: 1
+    devices: 1
+    num_nodes: 1
     seed: 42
     grad_accum_every: 1
     clear_cuda_cache_every: 1
@@ -166,8 +166,8 @@ training:
         inference: false
         return_atom_inputs: true
       dl_kwargs:
-        num_workers: ${NUM_WORKERS}
+        num_workers:  0
         pin_memory: true
-        multiprocessing_context: ${MULTIPROCESSING_CONTEXT}
-        prefetch_factor: ${PREFETCH_FACTOR}
-        persistent_workers: ${PERSISTENT_WORKERS}
+        multiprocessing_context: null
+        prefetch_factor: null
+        persistent_workers: false

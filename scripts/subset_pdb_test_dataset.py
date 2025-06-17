@@ -9,7 +9,7 @@ from loguru import logger
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
-from omnifold.data.msa_parsing import parse_fasta
+from megafold.data.msa_parsing import parse_fasta
 
 
 def analyze_pdb_test_dataset(test_clusterings_dir: str):

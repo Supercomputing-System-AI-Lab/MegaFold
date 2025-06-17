@@ -95,20 +95,15 @@ rm input_cache
 ---
 ### Run code
 
-- Baseline: 
-
 ``` 
-AF3_OPTIMIZATIONS_MODE="baseline" python3 train.py --config configs/baseline.yaml --trainer_name initial_training
+AF3_OPTIMIZATIONS_MODE="megafold" python3 train.py --config configs/megafold_interactive.yaml --trainer_name initial_training
 ```
 
+Script to submit batch jobs is available in `scripts`. For example, you want to launch a job with `nodes=1` and `gpus=2`: 
 
-- MegaFold: 
-
-``` 
-AF3_OPTIMIZATIONS_MODE="megafold" python3 train.py --config configs/megafold.yaml --trainer_name initial_training
 ```
-
-*NOTE*: Scripts to submit batch jobs are available in `bash-scripts`.
+sbatch --nodes=1 --ntasks-per-node=2 --gpus=2 scripts/megafold.sh
+```
 
 
 ---
@@ -136,9 +131,9 @@ The following section gives detailed instructions on enabling each of our optimi
 
 
 ### Optimization 1: Data-loading
-The file `omnifold/inputs.py` includes the data pipeline and implementation details for the ahead-of-time cache-based data loading optimizations. 
+The file `megafold/inputs.py` includes the data pipeline and implementation details for the ahead-of-time cache-based data loading optimizations. 
 
-You can find details on [deterministic input features cache](https://github.com/Supercomputing-System-AI-Lab/MegaFold/blob/main/omnifold/inputs.py#L4536-L4553) and on [MSA features cache](https://github.com/Supercomputing-System-AI-Lab/MegaFold/blob/main/omnifold/inputs.py#L4670-L4732).
+You can find details on [deterministic input features cache](https://github.com/Supercomputing-System-AI-Lab/MegaFold/blob/main/megafold/inputs.py#L4536-L4553) and on [MSA features cache](https://github.com/Supercomputing-System-AI-Lab/MegaFold/blob/main/megafold/inputs.py#L4670-L4732).
 
 ---
 ### Optimization 2: FusedEvoAttention
@@ -150,7 +145,7 @@ The folder `FusedEvoAttention` includes source code of FusedEvoAttention kernel.
 #### Step 1: Import
 
 ```
-from evoformer import TritonEvoformer
+from evoattention import TritonEvoformer
 ```
 
 #### Step 2: In-code usage
@@ -239,8 +234,6 @@ FusedLayernormLinear fuses sequential `LayerNorm` and `Linear` layers. You can r
 - layernorm_linear_out = linear(layernorm(input))
 + layernorm_linear_out = fused_layernorm_linear(input)
 ```
-
-- **[AMD users]**: Use `helper_amd.py` instead of `helper.py`: <code>from ~~helper~~ helper_amd import calculate_config_layernorm_linear </code>
 
 - **NOTE**: `LayernormLinear` relies on tuned configurations (block sizes, num warps, etc.), which we provide for AF3 inputs to the kernel in `helper.py`. If you intend to apply the kernel to other input shapes, you can perform the Autotuning step (similar to `FusedEvoAttention`'s Step 3) with `untuned_fused_layernorm_linear.py`
 

@@ -4,7 +4,7 @@ import os
 import torch
 from loguru import logger
 
-from omnifold.configs import create_trainer_from_conductor_yaml
+from megafold.configs import create_trainer_from_conductor_yaml
 
 
 def main(config_path: str, trainer_name: str):
@@ -25,7 +25,7 @@ def main(config_path: str, trainer_name: str):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Train OmniFold.")
+    parser = argparse.ArgumentParser(description="Train MegaFold.")
     parser.add_argument(
         "--config",
         type=str,

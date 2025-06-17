@@ -1,7 +1,7 @@
 # %% [markdown]
-# # Clustering OmniFold PDB Evaluation Dataset
+# # Clustering MegaFold PDB Evaluation Dataset
 #
-# For clustering OmniFold's PDB evaluation dataset, we propose a modified (i.e., more stringent) version of the
+# For clustering MegaFold's PDB evaluation dataset, we propose a modified (i.e., more stringent) version of the
 # evaluation dataset's clustering procedure outlined in Abramson et al (2024).
 #
 # With the full evaluation set curated by the PDB test set filtering script we create a “low homology” subset
@@ -36,9 +36,9 @@ from tqdm import tqdm
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
-from omnifold.inputs import CCD_COMPONENTS_SMILES
-from omnifold.tensor_typing import typecheck
-from omnifold.utils.utils import exists, not_exists
+from megafold.inputs import CCD_COMPONENTS_SMILES
+from megafold.tensor_typing import typecheck
+from megafold.utils.utils import exists, not_exists
 from scripts.cluster_pdb_train_mmcifs import (
     CHAIN_INTERFACES,
     CHAIN_SEQUENCES,
@@ -578,7 +578,7 @@ def filter_to_low_homology_sequences(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Cluster chains and interfaces within the OmniFold PDB evaluation dataset's filtered mmCIF files."
+        description="Cluster chains and interfaces within the MegaFold PDB evaluation dataset's filtered mmCIF files."
     )
     parser.add_argument(
         "--mmcif_dir",

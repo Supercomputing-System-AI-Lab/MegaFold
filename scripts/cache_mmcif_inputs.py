@@ -6,7 +6,7 @@ from beartype.typing import Literal
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
-from omnifold.configs import create_trainer_from_conductor_yaml
+from megafold.configs import create_trainer_from_conductor_yaml
 
 
 def cache_mmcif_inputs(
