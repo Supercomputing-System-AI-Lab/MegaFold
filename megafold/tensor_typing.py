@@ -70,7 +70,7 @@ def package_available(package_name: str) -> bool:
 # maybe deespeed checkpoint, and always use non reentrant checkpointing
 
 DEEPSPEED_CHECKPOINTING = env.bool("DEEPSPEED_CHECKPOINTING", False)
-from megafold.kernels.evoattention import EvoformerAttention
+from megafold.model.FusedEvoAttention.evoattention import EvoformerAttention
 if DEEPSPEED_CHECKPOINTING:
     assert package_available("deepspeed"), "DeepSpeed must be installed for checkpointing."
 

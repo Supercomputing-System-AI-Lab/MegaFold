@@ -176,8 +176,8 @@ from megafold.utils.utils import (
     identity,
     not_exists,
 )
-from megafold.kernels.fused_layernorm_linear import LayernormLinear
-from megafold.kernels.fused_transition import FusedTransition
+from megafold.model.FusedLayernormLinear.fused_layernorm_linear import LayernormLinear
+from megafold.model.FusedTransition.fused_transition import FusedTransition
 
 # constants
 

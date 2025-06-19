@@ -137,7 +137,7 @@ You can find details on [deterministic input features cache](https://github.com/
 
 ---
 ### Optimization 2: FusedEvoAttention
-The folder `FusedEvoAttention` includes source code of FusedEvoAttention kernel. 
+The folder `megafold/model/FusedEvoAttention` includes source code of FusedEvoAttention kernel. 
 
 <details>
 <summary>Expand for step-by-step guide</summary>
@@ -145,7 +145,7 @@ The folder `FusedEvoAttention` includes source code of FusedEvoAttention kernel.
 #### Step 1: Import
 
 ```
-from evoattention import TritonEvoformer
+from megafold.model.FusedEvoAttention.evoattention import TritonEvoformer
 ```
 
 #### Step 2: In-code usage
@@ -192,7 +192,7 @@ out = TritonEvoformer(Q, K, V, mask)
 
 To achieve peak performance, the kernel's configuration (block sizes, num warps, etc.) should be tuned to your specific hardware and input shapes.
 
-1. Import `TritonEvoformer` as shown above.
+1. Import `TritonEvoformer` from `megafold.model.FusedEvoAttention.unfused_evoattention` (starts with untuned kernels)
 2. Use it in your model's training or inference script.
 3. Run your script with autotuning enabled: 
 
@@ -202,14 +202,14 @@ TRITON_PRINT_AUTOTUNING=1 python your_script.py
 
 4. With autotuning enabled, Triton will explore multiple kernel configurations. Then, it will print the best configuration for your input.
 5. Let the script run for several training iterations. Take note of the most frequently selected configuration—it is likely the best one for your target hardware and input shapes (sequence length).
-6. Manually write in the best configurations for each JIT kernels and comment out the `@triton.autotune` decorator of each jit kernels. An example of an autotuned kernel for NVIDIA H200 and sequence length 384 is provided in `autotuned.py`.
+6. Manually write in the best configurations for each JIT kernels and comment out the `@triton.autotune` decorator of each jit kernels. An example of an autotuned kernel for NVIDIA H200 and sequence length 384 is provided in `megafold.model.FusedEvoAttention.evoattention`.
 7. Use the modified kernel in your real workloads for best performance.
 
 </details>
 
 ---
 ### Optimization 3: FusedLayernormLinear
-The folder `FusedLayernormLinear` includes source code of fused layernorm-linear kernel. 
+The folder `megafold/model/FusedLayernormLinear` includes source code of fused layernorm-linear kernel. 
 
 <details>
 <summary>Expand for step-by-step guide</summary>
@@ -217,7 +217,7 @@ The folder `FusedLayernormLinear` includes source code of fused layernorm-linear
 #### Step 1: Import
 
 ```
-from fused_layernorm_linear import LayernormLinear
+from megafold.model.FusedLayernormLinear.fused_layernorm_linear import LayernormLinear
 ```
 
 #### Step 2: In-code usage
@@ -241,7 +241,7 @@ FusedLayernormLinear fuses sequential `LayerNorm` and `Linear` layers. You can r
 
 ---
 ### Optimization 4: FusedTransition
-The folder `FusedTransition` includes source code of FusedTransition kernel.
+The folder `megafold/model/FusedTransition` includes source code of FusedTransition kernel.
 
 <details>
 <summary>Expand for step-by-step guide</summary>
@@ -249,12 +249,12 @@ The folder `FusedTransition` includes source code of FusedTransition kernel.
 #### Step 1: Import
 
 ```
-from fused_transition import FusedTransition
+from megafold.model.FusedTransition.fused_transition import FusedTransition
 ```
 
 #### Step 2: In-code usage
 
-`FusedTransition` fuses the AF3's Transition layer (original implementation in `reference/torch_transition.py`). You can replace the original Transition with `FusedTransition`.
+`FusedTransition` fuses the AF3's Transition layer (original implementation in `benchmarks/transition_speed.py`). You can replace the original Transition with `FusedTransition`.
 
 ```diff
 # init

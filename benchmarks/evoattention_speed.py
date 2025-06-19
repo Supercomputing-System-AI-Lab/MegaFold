@@ -1,7 +1,7 @@
 import torch
 import triton
 import triton.language as tl
-from FusedEvoAttention.evoattention import TritonEvoformer
+from megafold.model.FusedEvoAttention.untuned_evoattention import TritonEvoformer # use untuned here for benchmarks so that in each input, it automatically runs autotuning for optimal perf for benchmarks
 from deepspeed.ops.deepspeed4science import DS4Sci_EvoformerAttention
 
 def max_neg_value(t):

@@ -15,9 +15,9 @@ def is_cuda():
     return triton.runtime.driver.active.get_current_target().backend == "cuda"
 
 if is_cuda():
-    from megafold.kernels.helper import calculate_config_layernorm_linear
+    from megafold.model.FusedLayernormLinear.helper import calculate_config_layernorm_linear
 else:
-    from megafold.kernels.helper_amd import calculate_config_layernorm_linear
+    from megafold.model.FusedLayernormLinear.helper_amd import calculate_config_layernorm_linear
 
 DEFAULT_CONFIG = (16, 16, 16, 8, 1, 8, 255)
 

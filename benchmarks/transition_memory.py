@@ -1,6 +1,6 @@
 import torch 
 from deepspeed.utils.timer import SynchronizedWallClockTimer 
-from FusedTransition.fused_transition import FusedTransition
+from megafold.model.FusedTransition.fused_transition import FusedTransition
 from benchmarks.transition_speed import Transition
 
 device = 'cuda'

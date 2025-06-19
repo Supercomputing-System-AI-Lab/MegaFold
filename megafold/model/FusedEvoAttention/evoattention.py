@@ -1,3 +1,5 @@
+# This code uses autotuned block sizes, comments out triton.autotune so that no autotuning happens in training 
+
 import torch
 import triton
 import triton.language as tl

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn 
 import triton
-from FusedTransition.fused_transition import FusedTransition
+from megafold.model.FusedTransition.fused_transition import FusedTransition
 
 torch.manual_seed(42)
 

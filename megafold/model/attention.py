@@ -18,7 +18,7 @@ from torch import nn
 from torch.nn import Module
 
 try:
-    from megafold.kernels.evoattention import TritonEvoformer
+    from megafold.model.FusedEvoAttention.evoattention import TritonEvoformer
 except Exception:
     TritonEvoformer = None
 from megafold.tensor_typing import Bool, Float, typecheck

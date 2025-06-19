@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn 
 import triton
-from FusedLayernormLinear.fused_layernorm_linear import LayernormLinear, layernorm_linear_forward, layernorm_linear_backward
+from megafold.model.FusedLayernormLinear.fused_layernorm_linear import LayernormLinear
+
 
 def full_triton_layernorm_linear(do, a, fused_kernel):
     o = fused_kernel(a)

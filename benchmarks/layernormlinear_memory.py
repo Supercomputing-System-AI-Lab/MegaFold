@@ -1,7 +1,7 @@
 import torch 
 import torch.nn as nn 
 from deepspeed.utils.timer import SynchronizedWallClockTimer 
-from FusedLayernormLinear.fused_layernorm_linear import LayernormLinear
+from megafold.model.FusedLayernormLinear.fused_layernorm_linear import LayernormLinear
 
 device = 'cuda'
 dtype = torch.float16
