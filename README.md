@@ -17,9 +17,6 @@ Why MegaFold?
 
 We include code for AlphaFold3 training (both baseline and end-to-end MegaFold integrations) and instructions to reproduce our paper results. 
 
-<details>
-<summary>Expand for running AF3 guide</summary>
-
 ### Install required dependencies
 
 ```
@@ -122,7 +119,6 @@ cat omniflow_caches.tar.gz.part_* > omniflow_caches.tar.gz
 tar -xzf omniflow_caches.tar.gz && rm omniflow_caches.tar.gz
 tar -xzf omniflow_data.tar.gz && rm omniflow_data.tar.gz
 ```
-</details>
 
 
 ---
