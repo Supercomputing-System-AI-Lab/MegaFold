@@ -1,12 +1,23 @@
 # MegaFold: System-Level Optimizations for Accelerating Protein Structure Prediction Models
 
+[![](https://img.shields.io/badge/Paper-PDF-blue)](TODO:add link)
+[![](https://img.shields.io/badge/project-page-green)](https://supercomputing-system-ai-lab.github.io/projects/megafold/)
+![](https://img.shields.io/badge/NVIDIA-support-green?style=flat&logo=nvidia&logoColor=green)
+![](https://img.shields.io/badge/AMD-support-black?style=flat&logo=amd&logoColor=black&labelColor=white)
+
+
+## News 
+
+- [06/2025] MegaFold code is released. 
+
+
 ## About 
 
 [MegaFold](TODO:add arxiv link) is a cross-platform system to accelerate protein structure prediction models (e.g., AlphaFold3, AlphaFold2).
 
 Why MegaFold? 
 
-- **Cross-platform support**: Supports execution on heterogeneous devices, including NVIDIA GPUs, AMD GPUs, and CPUs.
+- **Cross-platform support**: Supports execution on heterogeneous devices, including NVIDIA GPUs and AMD GPUs, through optimized Triton-based kernels.
 - **Ease of use**: Delivers huge performance gains with few lines of code change
 - **Speed improvement**: Accelerates per-iteration training time by up to 1.73x
 - **Memory reduction**: Reduces peak memory during training by up to 1.23x
@@ -253,10 +264,13 @@ from megafold.model.FusedTransition.fused_transition import FusedTransition
 - **NOTE**: `FusedTransition` relies on FusedLayernormLinear for its expanding projections. Make sure you read FusedLayernormLinear's usage guide above. 
 
 
-
 ## Citation 
 
 ```
 TODO: add bib
 ```
 
+
+## Acknowledgement
+- [alphafold3-pytorch](https://github.com/lucidrains/alphafold3-pytorch) for the open-source code that MegaFold is built on top. 
+- [AMD](https://www.amd.com/) for the AMD platforms.
