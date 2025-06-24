@@ -1,9 +1,9 @@
 # MegaFold: System-Level Optimizations for Accelerating Protein Structure Prediction Models
 
 [![](https://img.shields.io/badge/Paper-PDF-blue)](TODO:add link)
-[![](https://img.shields.io/badge/project-page-green)](https://supercomputing-system-ai-lab.github.io/projects/megafold/)
+[![](https://img.shields.io/badge/project-page-purple)](https://supercomputing-system-ai-lab.github.io/projects/megafold/)
 ![](https://img.shields.io/badge/NVIDIA-support-green?style=flat&logo=nvidia&logoColor=green)
-![](https://img.shields.io/badge/AMD-support-black?style=flat&logo=amd&logoColor=black&labelColor=white)
+![](https://img.shields.io/badge/AMD-support-red?style=flat&logo=amd&logoColor=black&labelColor=white)
 
 
 ## News 
