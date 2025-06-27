@@ -1,6 +1,6 @@
 # MegaFold: System-Level Optimizations for Accelerating Protein Structure Prediction Models
 
-[![](https://img.shields.io/badge/Paper-PDF-blue)](TODO:add link)
+[![](https://img.shields.io/badge/Paper-PDF-blue)](https://arxiv.org/abs/2506.20686)
 [![](https://img.shields.io/badge/project-page-purple)](https://supercomputing-system-ai-lab.github.io/projects/megafold/)
 ![](https://img.shields.io/badge/NVIDIA-support-green?style=flat&logo=nvidia&logoColor=green)
 ![](https://img.shields.io/badge/AMD-support-red?style=flat&logo=amd&logoColor=black&labelColor=white)
@@ -13,7 +13,7 @@
 
 ## About 
 
-[MegaFold](TODO:add arxiv link) is a cross-platform system to accelerate protein structure prediction models (e.g., AlphaFold3, AlphaFold2).
+[MegaFold](https://arxiv.org/abs/2506.20686) is a cross-platform system to accelerate protein structure prediction models (e.g., AlphaFold3, AlphaFold2).
 
 Why MegaFold? 
 
@@ -267,7 +267,15 @@ from megafold.model.FusedTransition.fused_transition import FusedTransition
 ## Citation 
 
 ```
-TODO: add bib
+@misc{la2025megafoldsystemleveloptimizationsaccelerating,
+    title={MegaFold: System-Level Optimizations for Accelerating Protein Structure Prediction Models}, 
+    author={Hoa La and Ahan Gupta and Alex Morehead and Jianlin Cheng and Minjia Zhang},
+    year={2025},
+    eprint={2506.20686},
+    archivePrefix={arXiv},
+    primaryClass={q-bio.BM},
+    url={https://arxiv.org/abs/2506.20686}, 
+}
 ```
 
 
