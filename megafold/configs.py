@@ -21,12 +21,7 @@ from megafold.inputs import (
 )
 from megafold.nlm import NLMEmbedding
 import os 
-if os.environ.get("AF3_OPTIMIZATIONS_MODE") == "baseline": 
-    from megafold.baseline import MegaFold
-elif os.environ.get("AF3_OPTIMIZATIONS_MODE") == "layernormlinear":
-    from megafold.megafold_layernormlinear import MegaFold
-else:
-    from megafold.model.megafold import MegaFold
+from megafold.model.megafold import MegaFold
 from megafold.plm import PLMEmbedding
 from megafold.tensor_typing import typecheck
 from megafold.trainer import Dataset, Fabric, LRScheduler, Optimizer, Trainer

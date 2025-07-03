@@ -37,12 +37,7 @@ from megafold.inputs import (
     collate_inputs_to_batched_atom_input,
     compose_calls,
 )
-if os.environ.get("AF3_OPTIMIZATIONS_MODE") == "baseline": 
-    from megafold.baseline import ComputeConfidenceScore, ComputeModelSelectionScore, Sample
-elif os.environ.get("AF3_OPTIMIZATIONS_MODE") == "layernormlinear":
-    from megafold.megafold_layernormlinear import ComputeConfidenceScore, ComputeModelSelectionScore, Sample
-else:
-    from megafold.model.megafold import ComputeConfidenceScore, ComputeModelSelectionScore, Sample
+from megafold.model.megafold import ComputeConfidenceScore, ComputeModelSelectionScore, Sample
     
 from megafold.tensor_typing import package_available, should_typecheck, typecheck
 from megafold.utils.model_utils import at_most_one_of, divisible_by

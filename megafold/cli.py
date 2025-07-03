@@ -17,27 +17,13 @@ from megafold.inputs import (
     MegaFoldInput,
     megafold_input_to_pdb_input,
 )
-if os.environ.get("AF3_OPTIMIZATIONS_MODE") == "baseline": 
-    from megafold.baseline import (
-        ComputeConfidenceScore,
-        ComputeRankingScore,
-        ConfidenceHeadLogits,
-        MegaFold,
-    )
-elif os.environ.get("AF3_OPTIMIZATIONS_MODE") == "layernormlinear":
-    from megafold.megafold_layernormlinear import (
-        ComputeConfidenceScore,
-        ComputeRankingScore,
-        ConfidenceHeadLogits,
-        MegaFold,
-    )
-else:
-    from megafold.model.megafold import (
-        ComputeConfidenceScore,
-        ComputeRankingScore,
-        ConfidenceHeadLogits,
-        MegaFold,
-    )
+
+from megafold.model.megafold import (
+    ComputeConfidenceScore,
+    ComputeRankingScore,
+    ConfidenceHeadLogits,
+    MegaFold,
+)
 from megafold.tensor_typing import typecheck
 from megafold.utils.data_utils import decrement_all_by_n
 from megafold.utils.model_utils import batch_repeat_interleave, lens_to_mask, not_exists

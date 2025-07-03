@@ -6,13 +6,8 @@ import click
 from Bio.PDB import PDBIO
 
 from megafold.inputs import MegaFoldInput
-import os 
-if os.environ.get("AF3_OPTIMIZATIONS_MODE") == "baseline": 
-    from megafold.baseline import MegaFold
-elif os.environ.get("AF3_OPTIMIZATIONS_MODE") == "layernormlinear":
-    from megafold.megafold_layernormlinear import MegaFold
-else:
-    from megafold.model.megafold import MegaFold
+import os
+from megafold.model.megafold import MegaFold
 
 # constants
 model = None

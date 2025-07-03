@@ -26,7 +26,7 @@ Why MegaFold?
 
 ## Usage
 
-We include code for AlphaFold3 training (both baseline and end-to-end MegaFold integrations) and instructions to reproduce our paper results. 
+We include code for AlphaFold3 training with end-to-end MegaFold integrations and instructions to reproduce our paper results. 
 
 ### Install required dependencies
 
@@ -104,7 +104,7 @@ rm input_cache
 ### Run code
 
 ``` 
-AF3_OPTIMIZATIONS_MODE="megafold" python3 train.py --config configs/megafold_interactive.yaml --trainer_name initial_training
+python3 train.py --config configs/megafold_interactive.yaml --trainer_name initial_training
 ```
 
 Script to submit batch jobs is available in `scripts`. For example, you want to launch a job with `nodes=1` and `gpus=2`: 

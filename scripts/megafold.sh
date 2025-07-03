@@ -27,8 +27,8 @@ export NUM_NODES NUM_GPUS GLOBAL_BATCH_SIZE NUM_WORKERS MULTIPROCESSING_CONTEXT 
 
 envsubst < configs/megafold.yaml > configs/megafold_rendered.yaml
 if [ "$GLOBAL_BATCH_SIZE" -gt 1 ]; then
-  AF3_OPTIMIZATIONS_MODE="megafold" srun python3 train.py --config configs/megafold_rendered.yaml --trainer_name initial_training
+  srun python3 train.py --config configs/megafold_rendered.yaml --trainer_name initial_training
 else
-  AF3_OPTIMIZATIONS_MODE="megafold" python3 train.py --config configs/megafold_rendered.yaml --trainer_name initial_training
+  python3 train.py --config configs/megafold_rendered.yaml --trainer_name initial_training
 fi
 
